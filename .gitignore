@@ -1,2 +1,5 @@
 .ssh/
 .bash_history
+/storage/
+/backuplog.txt
+/.emacs.d/
