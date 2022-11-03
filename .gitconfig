@@ -1,0 +1,7 @@
+[safe]
+	directory = /storage/emulated/0/git-repos/.life-in-plain-text
+[user]
+	name = Puneeth Chaganti
+	email = punchagan@muse-amuse.in
+[init]
+	defaultBranch = main
