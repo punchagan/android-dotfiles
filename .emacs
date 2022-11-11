@@ -15,6 +15,9 @@
 (tool-bar-mode   -1)
 (menu-bar-mode   -1)
 
+;; More prominent window divider
+(window-divider-mode 1)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
