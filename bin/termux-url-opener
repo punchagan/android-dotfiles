@@ -1,0 +1,6 @@
+#!/data/data/com.termux/files/usr/bin/env bash
+
+URL="${1}"
+
+$HOME/article/extract.sh "${URL}" | $HOME/bin/read-text.sh
+
