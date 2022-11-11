@@ -3,3 +3,4 @@
 /storage/
 /backuplog.txt
 /.emacs.d/
+node_modules/
