@@ -12,5 +12,7 @@ axios.get(url).then((response) => {
   const doc = new JSDOM(response.data, { url });
   const reader = new Readability(doc.window.document);
   const article = reader.parse();
+  console.log(`${article.title}\n`);
+  console.log(`${article.byline}\n`);
   console.log(article.content);
 });
