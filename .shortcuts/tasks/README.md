@@ -1,0 +1,1 @@
+Any scripts added here are run in the background without creating a visible termux shell in the UI.
