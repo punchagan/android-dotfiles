@@ -11,6 +11,10 @@
 (setq backup-directory-alist
       `(("." . ,(expand-file-name "backups" user-emacs-directory))))
 
+;; No tool-bar, menu-bar and scroll-bar
+(tool-bar-mode   -1)
+(menu-bar-mode   -1)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
