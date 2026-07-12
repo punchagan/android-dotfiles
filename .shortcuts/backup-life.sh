@@ -1,4 +1,4 @@
-DIR=/sdcard/git-repos/.life-in-plain-text/
+DIR=/sdcard/Documents/git-repos/.life-in-plain-text/
 bash $DIR/backup.sh > ~/backuplog.txt
 if grep CONFLICT backuplog.txt;
    then
