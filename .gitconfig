@@ -1,6 +1,7 @@
 [safe]
 	directory = /storage/emulated/0/git-repos/.life-in-plain-text
 	directory = /storage/emulated/0/Documents/git-repos/.life-in-plain-text
+	directory = /storage/emulated/0/Documents/git-repos/niluwa-export
 [user]
 	name = Puneeth Chaganti
 	email = punchagan@muse-amuse.in
