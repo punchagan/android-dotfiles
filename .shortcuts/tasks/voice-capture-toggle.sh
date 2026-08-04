@@ -9,10 +9,9 @@
 # when a recording finishes is simpler and more trustworthy: one script,
 # event-triggered, no polling.
 
-REMOTE="punchagan@muse-amuse.in:~/voice-capture/inbox/"
-
 STAGING_DIR="$HOME/voice-capture/pending"
 STATE_FILE="$HOME/.cache/voice-capture-current"
+UPLOAD_SCRIPT="$HOME/bin/upload-voice-note.sh"
 
 mkdir -p "$STAGING_DIR" "$(dirname "$STATE_FILE")"
 
@@ -22,18 +21,17 @@ NOTIF_ID="voice-capture"
 IS_RECORDING="$(termux-microphone-record -i | jq -r .isRecording)"
 
 if [ "$IS_RECORDING" = "true" ]; then
-    # Already recording -- stop it, then flush the whole pending queue.
+    # Already recording -- stop it, then flush the whole pending queue
+    # (this file, plus anything left over from a previous failed
+    # upload) via the shared upload script -- also used by Automate for
+    # recordings from a separate voice-memo app (see
+    # bin/upload-voice-note.sh for why).
     termux-microphone-record -q
     rm -f "$STATE_FILE"
     termux-notification -i "$NOTIF_ID" -t "Voice capture" -c "Saved, uploading..."
 
-    termux-wake-lock
-    if rsync -az --remove-source-files "$STAGING_DIR"/ "$REMOTE"; then
-        termux-notification -i "$NOTIF_ID" -t "Voice capture" -c "Uploaded"
-    else
-        termux-notification -i "$NOTIF_ID" -t "Voice capture" -c "Upload failed, will retry next capture"
-    fi
-    termux-wake-unlock
+    shopt -s nullglob
+    "$UPLOAD_SCRIPT" "$STAGING_DIR"/*.m4a
 else
     # Nothing recording -- start one. --ongoing pins the notification so it
     # can't be swiped away mid-recording by accident; tapping it (or the
