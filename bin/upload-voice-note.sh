@@ -2,15 +2,8 @@
 # Uploads one or more voice-note recordings to the remote inbox via
 # rsync, removing each local file only after a successful transfer.
 #
-# Shared by:
-#  - voice-capture-toggle.sh, passing the whole pending queue (so a
-#    previously failed upload gets retried on the next capture)
-#  - Automate, via a Termux RUN_COMMAND action, for recordings made by
-#    a separate voice-memo app in its own dedicated folder -- see
-#    doom.org's "Process voice notes from phone" section for why:
-#    Termux's own mic recording goes silent when backgrounded on
-#    Android 14+ (missing foregroundServiceType="microphone" in
-#    termux-api's manifest), that app doesn't have that bug.
+# Called by voice-capture-foreground.sh with the whole pending queue,
+# so a previously failed upload gets retried on the next capture.
 #
 # Usage: upload-voice-note.sh FILE...
 
