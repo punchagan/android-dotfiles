@@ -16,25 +16,34 @@ STATE_FILE="$HOME/.cache/voice-capture-current"
 
 mkdir -p "$STAGING_DIR" "$(dirname "$STATE_FILE")"
 
+SELF="$(realpath "$0")"
+NOTIF_ID="voice-capture"
+
 IS_RECORDING="$(termux-microphone-record -i | jq -r .isRecording)"
 
 if [ "$IS_RECORDING" = "true" ]; then
     # Already recording -- stop it, then flush the whole pending queue.
     termux-microphone-record -q
     rm -f "$STATE_FILE"
-    termux-notification -t "Voice capture" -c "Saved, uploading..."
+    termux-notification -i "$NOTIF_ID" -t "Voice capture" -c "Saved, uploading..."
 
     termux-wake-lock
     if rsync -az --remove-source-files "$STAGING_DIR"/ "$REMOTE"; then
-        termux-notification -t "Voice capture" -c "Uploaded"
+        termux-notification -i "$NOTIF_ID" -t "Voice capture" -c "Uploaded"
     else
-        termux-notification -t "Voice capture" -c "Upload failed, will retry next capture"
+        termux-notification -i "$NOTIF_ID" -t "Voice capture" -c "Upload failed, will retry next capture"
     fi
     termux-wake-unlock
 else
-    # Nothing recording -- start one.
+    # Nothing recording -- start one. --ongoing pins the notification so it
+    # can't be swiped away mid-recording by accident; tapping it (or the
+    # Stop button) just re-runs this same script, which the isRecording
+    # check above turns into the stop branch.
     OUTFILE="$STAGING_DIR/voice-$(date +%Y%m%dT%H%M%S).m4a"
     termux-microphone-record -f "$OUTFILE" -l 0 -e aac
     echo "$OUTFILE" > "$STATE_FILE"
-    termux-notification -t "Voice capture" -c "Recording... tap again to stop"
+    termux-notification -i "$NOTIF_ID" -t "Voice capture" -c "Recording... tap to stop" \
+        --ongoing \
+        --action "$SELF" \
+        --button1 "Stop" --button1-action "$SELF"
 fi
