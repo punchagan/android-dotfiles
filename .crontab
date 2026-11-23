@@ -7,3 +7,6 @@ PATH=/data/data/com.termux/files/usr/bin:/system/bin
 
 # Every 3 hours: sync life-in-plain-text.
 0 */3 * * * bash $HOME/.shortcuts/backup-life.sh >> $HOME/cron.log 2>&1
+
+# Every 30 minutes: upload new voice notes (quiet if there are none).
+*/30 * * * * bash $HOME/bin/sync-voice-notes.sh >> $HOME/cron.log 2>&1
