@@ -22,9 +22,12 @@ log() {
 
 mkdir -p "$DONE_DIR" || exit 1
 
-# NUL-delimited so file names with spaces are handled safely.
+# NUL-delimited so file names with spaces are handled safely. Hidden
+# files are skipped: Android keeps recordings deleted in the app as
+# ".trashed-<expiry>-<name>.m4a" in the same folder.
 mapfile -d '' files < <(
-    find "$SRC_DIR" -maxdepth 1 -type f -name '*.m4a' -mmin +"$MIN_AGE" -print0
+    find "$SRC_DIR" -maxdepth 1 -type f -name '*.m4a' ! -name '.*' \
+        -mmin +"$MIN_AGE" -print0
 )
 total=${#files[@]}
 
