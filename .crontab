@@ -1,0 +1,9 @@
+# Install on the phone with: crontab ~/.crontab
+# (cron reads its own spool, not this file, so re-run after any edit.)
+#
+# PATH is set explicitly because cron's environment is minimal and the
+# scripts rely on the termux-* commands.
+PATH=/data/data/com.termux/files/usr/bin:/system/bin
+
+# Every 3 hours: sync life-in-plain-text.
+0 */3 * * * bash $HOME/.shortcuts/backup-life.sh >> $HOME/cron.log 2>&1

@@ -2,5 +2,6 @@
 .bash_history
 /storage/
 /backuplog.txt
+/cron.log
 /.emacs.d/
 node_modules/
